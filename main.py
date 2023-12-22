@@ -3,6 +3,7 @@ from models import Product, ProductCreate
 from db import products_collection
 from bson import ObjectId
 from typing import List
+import random
 
 
 app = FastAPI()
@@ -24,16 +25,19 @@ seed_initial_products()
 
 @app.get("/products/random", response_model=Product)
 async def get_random_product():
-    """Return a random product."""
-    product = products_collection.aggregate([{ "$sample": { "size": 1 } }]).next()
-    
+    # Clear all products
+    products_collection.delete_many({})
+    # Seed initial products
+    seed_initial_products()
+    # Fetch a random product
+    count = products_collection.count_documents({})
+    if count == 0:
+        raise HTTPException(status_code=404, detail="No products found")
+    random_index = random.randint(0, count - 1)
+    product = products_collection.find().limit(1).skip(random_index).next()
     # Convert the '_id' field from ObjectId to string
     product['_id'] = str(product['_id'])
-    
-    if product:
-        return Product(**product)
-    else:
-        raise HTTPException(status_code=404, detail="Product not found")
+    return Product(**product)
     
 @app.delete("/products/clear")
 async def clear_all_products():
