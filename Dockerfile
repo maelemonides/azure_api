@@ -9,6 +9,7 @@ COPY requirements.txt .
 
 # Install any dependencies
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir "pymongo[srv]" fastapi pydantic uvicorn
 
 # Copy the current directory contents into the container at /app
 COPY . .
