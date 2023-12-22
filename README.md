@@ -7,4 +7,6 @@ Azure connected api via docker image
 Azure docker container overview
 ![image](https://github.com/maelemonides/azure_api/assets/101704314/106b13d6-e0a8-4b46-a7f3-4f2815d41f52)
 
+
+Azure website
 ![image](https://github.com/maelemonides/azure_api/assets/101704314/01879072-319b-41d9-8ebb-012179a40be5)
